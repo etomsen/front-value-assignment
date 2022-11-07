@@ -8,14 +8,9 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface AppRoot {
     }
-    interface AppTabs {
+    interface TabFavs {
     }
-    interface PageHome {
-    }
-    interface PageNotice {
-    }
-    interface PageProfile {
-        "name": string;
+    interface TabRandom {
     }
 }
 declare global {
@@ -25,56 +20,35 @@ declare global {
         prototype: HTMLAppRootElement;
         new (): HTMLAppRootElement;
     };
-    interface HTMLAppTabsElement extends Components.AppTabs, HTMLStencilElement {
+    interface HTMLTabFavsElement extends Components.TabFavs, HTMLStencilElement {
     }
-    var HTMLAppTabsElement: {
-        prototype: HTMLAppTabsElement;
-        new (): HTMLAppTabsElement;
+    var HTMLTabFavsElement: {
+        prototype: HTMLTabFavsElement;
+        new (): HTMLTabFavsElement;
     };
-    interface HTMLPageHomeElement extends Components.PageHome, HTMLStencilElement {
+    interface HTMLTabRandomElement extends Components.TabRandom, HTMLStencilElement {
     }
-    var HTMLPageHomeElement: {
-        prototype: HTMLPageHomeElement;
-        new (): HTMLPageHomeElement;
-    };
-    interface HTMLPageNoticeElement extends Components.PageNotice, HTMLStencilElement {
-    }
-    var HTMLPageNoticeElement: {
-        prototype: HTMLPageNoticeElement;
-        new (): HTMLPageNoticeElement;
-    };
-    interface HTMLPageProfileElement extends Components.PageProfile, HTMLStencilElement {
-    }
-    var HTMLPageProfileElement: {
-        prototype: HTMLPageProfileElement;
-        new (): HTMLPageProfileElement;
+    var HTMLTabRandomElement: {
+        prototype: HTMLTabRandomElement;
+        new (): HTMLTabRandomElement;
     };
     interface HTMLElementTagNameMap {
         "app-root": HTMLAppRootElement;
-        "app-tabs": HTMLAppTabsElement;
-        "page-home": HTMLPageHomeElement;
-        "page-notice": HTMLPageNoticeElement;
-        "page-profile": HTMLPageProfileElement;
+        "tab-favs": HTMLTabFavsElement;
+        "tab-random": HTMLTabRandomElement;
     }
 }
 declare namespace LocalJSX {
     interface AppRoot {
     }
-    interface AppTabs {
+    interface TabFavs {
     }
-    interface PageHome {
-    }
-    interface PageNotice {
-    }
-    interface PageProfile {
-        "name"?: string;
+    interface TabRandom {
     }
     interface IntrinsicElements {
         "app-root": AppRoot;
-        "app-tabs": AppTabs;
-        "page-home": PageHome;
-        "page-notice": PageNotice;
-        "page-profile": PageProfile;
+        "tab-favs": TabFavs;
+        "tab-random": TabRandom;
     }
 }
 export { LocalJSX as JSX };
@@ -82,10 +56,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
-            "app-tabs": LocalJSX.AppTabs & JSXBase.HTMLAttributes<HTMLAppTabsElement>;
-            "page-home": LocalJSX.PageHome & JSXBase.HTMLAttributes<HTMLPageHomeElement>;
-            "page-notice": LocalJSX.PageNotice & JSXBase.HTMLAttributes<HTMLPageNoticeElement>;
-            "page-profile": LocalJSX.PageProfile & JSXBase.HTMLAttributes<HTMLPageProfileElement>;
+            "tab-favs": LocalJSX.TabFavs & JSXBase.HTMLAttributes<HTMLTabFavsElement>;
+            "tab-random": LocalJSX.TabRandom & JSXBase.HTMLAttributes<HTMLTabRandomElement>;
         }
     }
 }

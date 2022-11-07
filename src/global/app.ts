@@ -8,6 +8,6 @@ import { setupConfig } from '@ionic/core';
  */
 export default async () => {
     setupConfig({
-        mode: 'md',
+        mode: 'ios',
     });
 };
