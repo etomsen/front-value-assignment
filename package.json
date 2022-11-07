@@ -1,0 +1,33 @@
+{
+    "name": "front-value-assignment",
+    "private": true,
+    "version": "0.0.1",
+    "description": "FrontValue Assignment: ETomsen",
+    "scripts": {
+        "build": "stencil build",
+        "start": "stencil build --dev --watch --serve",
+        "test": "stencil test --spec --e2e",
+        "test.watch": "stencil test --spec --e2e --watchAll",
+        "generate": "stencil generate"
+    },
+    "devDependencies": {
+        "@ionic/core": "^6.1.14",
+        "@stencil/core": "^2.17.3",
+        "@stencil/sass": "^2.0.0",
+        "@stencil/store": "^2.0.1",
+        "@types/jest": "^27.5.2",
+        "@typescript-eslint/eslint-plugin": "^5.42.1",
+        "@typescript-eslint/parser": "^5.42.1",
+        "eslint": "^8.27.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "ionicons": "^6.0.2",
+        "jest": "^27.5.1",
+        "jest-cli": "^27.5.1",
+        "prettier": "^2.7.1",
+        "puppeteer": "^16.2.0",
+        "typescript": "^4.8.4",
+        "typescript-language-server": "^2.1.0"
+    },
+    "license": "MIT"
+}
