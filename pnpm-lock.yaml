@@ -6,6 +6,7 @@ specifiers:
   '@stencil/sass': ^2.0.0
   '@stencil/store': ^2.0.1
   '@types/jest': ^27.5.2
+  '@types/node': ^18.11.9
   '@typescript-eslint/eslint-plugin': ^5.42.1
   '@typescript-eslint/parser': ^5.42.1
   eslint: ^8.27.0
@@ -25,6 +26,7 @@ devDependencies:
   '@stencil/sass': 2.0.0_@stencil+core@2.19.2
   '@stencil/store': 2.0.1_@stencil+core@2.19.2
   '@types/jest': 27.5.2
+  '@types/node': 18.11.9
   '@typescript-eslint/eslint-plugin': 5.42.1_2udltptbznfmezdozpdoa2aemq
   '@typescript-eslint/parser': 5.42.1_rmayb2veg2btbq6mbmnyivgasy
   eslint: 8.27.0

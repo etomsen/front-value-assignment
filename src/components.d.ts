@@ -8,6 +8,15 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface AppRoot {
     }
+    interface QuoteListItem {
+        "fetchNext": boolean;
+        "id": string;
+        "isFav": boolean;
+        "text": string;
+    }
+    interface QuoteQueue {
+        "items": Array<{ id: string; text: string }>;
+    }
     interface TabFavs {
     }
     interface TabRandom {
@@ -19,6 +28,18 @@ declare global {
     var HTMLAppRootElement: {
         prototype: HTMLAppRootElement;
         new (): HTMLAppRootElement;
+    };
+    interface HTMLQuoteListItemElement extends Components.QuoteListItem, HTMLStencilElement {
+    }
+    var HTMLQuoteListItemElement: {
+        prototype: HTMLQuoteListItemElement;
+        new (): HTMLQuoteListItemElement;
+    };
+    interface HTMLQuoteQueueElement extends Components.QuoteQueue, HTMLStencilElement {
+    }
+    var HTMLQuoteQueueElement: {
+        prototype: HTMLQuoteQueueElement;
+        new (): HTMLQuoteQueueElement;
     };
     interface HTMLTabFavsElement extends Components.TabFavs, HTMLStencilElement {
     }
@@ -34,6 +55,8 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "app-root": HTMLAppRootElement;
+        "quote-list-item": HTMLQuoteListItemElement;
+        "quote-queue": HTMLQuoteQueueElement;
         "tab-favs": HTMLTabFavsElement;
         "tab-random": HTMLTabRandomElement;
     }
@@ -41,12 +64,23 @@ declare global {
 declare namespace LocalJSX {
     interface AppRoot {
     }
+    interface QuoteListItem {
+        "fetchNext"?: boolean;
+        "id"?: string;
+        "isFav"?: boolean;
+        "text"?: string;
+    }
+    interface QuoteQueue {
+        "items"?: Array<{ id: string; text: string }>;
+    }
     interface TabFavs {
     }
     interface TabRandom {
     }
     interface IntrinsicElements {
         "app-root": AppRoot;
+        "quote-list-item": QuoteListItem;
+        "quote-queue": QuoteQueue;
         "tab-favs": TabFavs;
         "tab-random": TabRandom;
     }
@@ -56,6 +90,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
+            "quote-list-item": LocalJSX.QuoteListItem & JSXBase.HTMLAttributes<HTMLQuoteListItemElement>;
+            "quote-queue": LocalJSX.QuoteQueue & JSXBase.HTMLAttributes<HTMLQuoteQueueElement>;
             "tab-favs": LocalJSX.TabFavs & JSXBase.HTMLAttributes<HTMLTabFavsElement>;
             "tab-random": LocalJSX.TabRandom & JSXBase.HTMLAttributes<HTMLTabRandomElement>;
         }
