@@ -27,7 +27,7 @@ export class AppRoot {
                             <ion-segment-button value="random">Random quotes</ion-segment-button>
                             <ion-segment-button value="favs">Favourite quotes</ion-segment-button>
                         </ion-segment>
-                        {selectLoadingQuotes() && <ion-progress-bar color="light" type="indeterminate"></ion-progress-bar>}
+                        {selectLoadingQuotes() && <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>}
                     </ion-toolbar>
                 </ion-header>
                 <ion-content fullscreen>

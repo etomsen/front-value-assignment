@@ -5,6 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { Quote } from "./api/chucknorris.api";
 export namespace Components {
     interface AppRoot {
     }
@@ -15,7 +16,7 @@ export namespace Components {
         "text": string;
     }
     interface QuoteQueue {
-        "items": Array<{ id: string; text: string }>;
+        "items": Array<Quote>;
     }
     interface TabFavs {
     }
@@ -71,7 +72,7 @@ declare namespace LocalJSX {
         "text"?: string;
     }
     interface QuoteQueue {
-        "items"?: Array<{ id: string; text: string }>;
+        "items": Array<Quote>;
     }
     interface TabFavs {
     }

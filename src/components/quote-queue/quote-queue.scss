@@ -1,4 +1,18 @@
 ul {
     margin: 0;
     padding: 0;
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+li {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    will-change: transform;
+    transition-property: transform;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in;
 }
