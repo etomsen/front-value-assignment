@@ -55,11 +55,14 @@ export async function actionFetchRandomQuote(abortController?: AbortController) 
 }
 
 export function actionToggleFav(quote: Quote, force = false) {
-    if (state.favs.length === COUNT && !force) {
+    const isFav = state.favIndices.has(quote.id);
+    if (!isFav && state.favs.length === COUNT && !force) {
         throw new Error(`Chack does not allow you to save more than ${COUNT} quotes. Delete the oldest?`);
     }
-    if (state.favIndices.has(quote.id)) {
-        set('favs', state.favs.splice(state.favIndices.get(quote.id)));
+    const index = state.favIndices.get(quote.id);
+    if (isFav) {
+        state.favs.splice(index, 1);
+        set('favs', [...state.favs]);
     } else {
         const favs = state.favs.length < COUNT ? state.favs : state.favs.slice(0, -1);
         set('favs', [quote, ...favs]);

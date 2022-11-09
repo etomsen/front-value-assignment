@@ -23,7 +23,6 @@ export class TabRandom {
     @Listen('toggleFav')
     handleToggleFav(e: CustomEvent<StoreQuote>) {
         const quote = e.detail;
-        debugger;
         try {
             actionToggleFav(quote);
             this.rerenderItem = quote.key;
@@ -62,8 +61,6 @@ export class TabRandom {
         const quotes = selectQuotes();
         const ids = quotes.map((q, index) => ({ id: q.key, rerender: index === 0 || this.rerenderItem === q.key }));
 
-        console.log(this.rerenderItem);
-        console.log(ids);
         return (
             <virtual-queue
                 ids={ids}
