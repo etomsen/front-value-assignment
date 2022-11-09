@@ -41,6 +41,10 @@ export class QuoteQueue {
         return result;
     }
 
+    componentWillRender() {
+        this.children = this.updateChildren();
+    }
+
     componentDidRender() {
         if (this.items.length && !this.firstRenderDone) {
             setTimeout(() => {
@@ -50,7 +54,6 @@ export class QuoteQueue {
     }
 
     render() {
-        this.children = this.updateChildren();
         return <ul>{this.children}</ul>;
     }
 }

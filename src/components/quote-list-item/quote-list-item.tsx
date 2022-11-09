@@ -59,10 +59,10 @@ export class QuoteListItemComponent {
     }
 
     async fetchNewQuote() {
+        clearTimeout(this.fetchNextTimer);
         try {
             await actionFetchRandomQuote();
         } catch (error) {
-            clearTimeout(this.fetchNextTimer);
             this.fetchNextTimer = setTimeout(this.fetchNewQuote.bind(this), 5000);
         }
     }
