@@ -5,14 +5,14 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { StoreQuote } from "./store/quotes.store";
+import { Quote } from "./api/chucknorris.api";
 import { ChildType } from "@stencil/core/internal";
 export namespace Components {
     interface AppRoot {
     }
     interface QuoteListItem {
         "fetchNext": boolean;
-        "quote": StoreQuote;
+        "quote": Quote & { isFav?: boolean };
     }
     interface TabFavs {
     }
@@ -71,8 +71,8 @@ declare namespace LocalJSX {
     }
     interface QuoteListItem {
         "fetchNext"?: boolean;
-        "onToggleFav"?: (event: QuoteListItemCustomEvent<StoreQuote>) => void;
-        "quote"?: StoreQuote;
+        "onToggleFav"?: (event: QuoteListItemCustomEvent<Quote>) => void;
+        "quote"?: Quote & { isFav?: boolean };
     }
     interface TabFavs {
     }

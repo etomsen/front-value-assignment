@@ -1,11 +1,11 @@
 import { SegmentCustomEvent } from '@ionic/core';
 import { Component, h, State } from '@stencil/core';
-import { selectLoadingQuotes } from '../store/quotes.store';
+import { selectFavsCount, selectLoadingQuotes } from '../store/quotes.store';
 
 @Component({
     tag: 'app-root',
-    styleUrl: 'app.css',
-    scoped: true,
+    styleUrl: 'app.scss',
+    shadow: true,
 })
 export class AppRoot {
     @State()
@@ -25,7 +25,10 @@ export class AppRoot {
                     <ion-toolbar>
                         <ion-segment value={this.activeTab} color="primary" onIonChange={this.onTabChange.bind(this)}>
                             <ion-segment-button value="random">Random quotes</ion-segment-button>
-                            <ion-segment-button value="favs">Favourite quotes</ion-segment-button>
+                            <ion-segment-button value="favs" layout="icon-end">
+                                <span class="favs-btn__text">Favourite quotes</span>
+                                <ion-badge class="favs-btn__badge">{selectFavsCount()}</ion-badge>
+                            </ion-segment-button>
                         </ion-segment>
                         {selectLoadingQuotes() && <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar>}
                     </ion-toolbar>

@@ -1,5 +1,6 @@
 import { Event, EventEmitter, Component, Prop, h, Watch } from '@stencil/core';
-import { StoreQuote, actionFetchRandomQuote, actionToggleFav } from '../../store/quotes.store';
+import { Quote } from '../../api/chucknorris.api';
+import { actionFetchRandomQuote } from '../../store/quotes.store';
 
 @Component({
     tag: 'quote-list-item',
@@ -8,13 +9,13 @@ import { StoreQuote, actionFetchRandomQuote, actionToggleFav } from '../../store
 })
 export class QuoteListItemComponent {
     @Prop()
-    quote: StoreQuote;
+    quote: Quote & { isFav?: boolean };
 
     @Prop()
     fetchNext = false;
 
     @Event()
-    toggleFav: EventEmitter<StoreQuote>;
+    toggleFav: EventEmitter<Quote>;
 
     fetchNextTimer?: NodeJS.Timeout;
 

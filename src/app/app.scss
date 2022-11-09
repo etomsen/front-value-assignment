@@ -1,0 +1,26 @@
+.favs-btn {
+    &__badge {
+        position: absolute;
+        right: 0;
+    }
+
+    &__text {
+        margin-right: 50px;
+        margin-left: 20px;
+    }
+}
+
+@mixin tab {
+    display: block;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+tab-random {
+    @include tab;
+}
+
+tab-favs {
+    @include tab;
+}

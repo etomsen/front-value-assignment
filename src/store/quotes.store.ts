@@ -95,4 +95,11 @@ export function selectQuotes() {
     return state.quotes.map(q => ({ ...q, isFav: state.favIndices.has(q.id) }));
 }
 
+export function selectFavs() {
+    return state.favs.map(q => ({ ...q, isFav: true }));
+}
+
+export function selectFavsCount() {
+    return state.favs.length;
+}
 export default state;
