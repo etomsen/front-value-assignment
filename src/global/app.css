@@ -4,3 +4,9 @@
 @import '~@ionic/core/css/typography.css';
 
 @import './variables.css';
+
+ion-toast.error-toast {
+    --background: var(--ion-color-danger, red);
+    --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
+    --color: white;
+}

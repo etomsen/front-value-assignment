@@ -41,7 +41,7 @@ export async function getRandomQuote(options: { abortController?: AbortControlle
         }
         if (!response.ok) {
             console.error('getRandomQuote API failed with status', response.status);
-            throw new Error('Chack Norris prevented of of fetching this random quote');
+            throw new Error('Chack Norris prevented you of fetching a random quote');
         }
         const json = await response.json();
         return {

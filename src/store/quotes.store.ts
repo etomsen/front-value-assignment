@@ -1,3 +1,4 @@
+import { toastController } from '@ionic/core';
 import { createStore } from '@stencil/store';
 import { getRandomQuote, getRandomQuotes, Quote } from '../api/chucknorris.api';
 
@@ -28,6 +29,17 @@ const { onChange, set, state } = quotesStore;
 
 onChange('quotes', quotes => {
     localStorage.setItem('quotes', JSON.stringify(quotes));
+});
+
+onChange('state', async state => {
+    if (state instanceof Error) {
+        const errToast = await toastController.create({
+            message: (state as Error).message,
+            duration: 4000,
+            cssClass: 'error-toast',
+        });
+        await errToast.present();
+    }
 });
 
 onChange('favs', quotes => {
