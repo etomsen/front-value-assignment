@@ -11,18 +11,48 @@ export async function getRandomQuotes(count: number): Promise<Array<Quote>> {
 
     const timeoutId = setTimeout(() => abortController.abort(), 5000);
     const all = await Promise.allSettled(promises);
-    // TODO: should we addintionally fetch the data if  some of promises have failed?
-    // TODO: should we fetch distinct random quotes?
 
     clearTimeout(timeoutId);
     const result = all.map(p => (p.status === 'fulfilled' ? p.value : null)).filter(Boolean);
     if (!result.length) {
         throw new Error('Chack Norris did not want u to read any quote');
     }
-    return result;
+    const ids = new Set();
+    return result.reduce((result, q) => {
+        if (!ids.has(q.id)) {
+            result.push(q);
+        }
+        return result;
+    }, []);
 }
 
-export async function getRandomQuote(options: { abortController?: AbortController; timeoutMs?: number } = {}): Promise<{ id: string; text: string }> {
+export interface GetQuoteOptions {
+    abortController?: AbortController;
+    timeoutMs?: number;
+}
+
+export async function getRandomDistinctQuote(excludeIds: Set<string>, options: GetQuoteOptions = {}): Promise<Quote> {
+    const abortController = options.abortController || new AbortController();
+    if (!options.abortController) {
+        var timeoutId = setTimeout(() => abortController.abort(), options.timeoutMs || 5000);
+    }
+    const fuse = 100;
+    for (let i = 0; i < fuse; i++) {
+        var q = await getRandomQuote(options);
+        if (!excludeIds.has(q.id)) {
+            break;
+        }
+    }
+    if (timeoutId) {
+        clearTimeout(timeoutId);
+    }
+    if (!q) {
+        throw new Error('Chanck Norris thinks that you already know all his random quotes!');
+    }
+    return q;
+}
+
+export async function getRandomQuote(options: GetQuoteOptions = {}): Promise<Quote> {
     const abortController = options.abortController || new AbortController();
     if (!options.abortController) {
         var timeoutId = setTimeout(() => abortController.abort(), options.timeoutMs || 5000);

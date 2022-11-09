@@ -1,6 +1,6 @@
 import { toastController } from '@ionic/core';
 import { createStore } from '@stencil/store';
-import { getRandomQuote, getRandomQuotes, Quote } from '../api/chucknorris.api';
+import { getRandomDistinctQuote, getRandomQuotes, Quote } from '../api/chucknorris.api';
 
 export const loadingQuotes = Symbol('Loading quotes');
 export const COUNT = 10;
@@ -53,8 +53,9 @@ function generateQuoteKey() {
 
 export async function actionFetchRandomQuote(abortController?: AbortController) {
     set('state', loadingQuotes);
+    const ids = new Set(state.quotes.map(q => q.id));
     try {
-        const q = await getRandomQuote({ abortController });
+        const q = await getRandomDistinctQuote(ids, { abortController });
         set('quotes', [{ ...q, key: generateQuoteKey() }, ...state.quotes]);
         set('state', undefined);
         setTimeout(() => {
