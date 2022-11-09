@@ -10,15 +10,23 @@ export class TabRandom {
     @State()
     suspendFetching = false;
 
+    rerenderItem?: string;
+
     componentWillLoad() {
         actionFetchQuotes();
     }
 
+    componentDidRender() {
+        delete this.rerenderItem;
+    }
+
     @Listen('toggleFav')
-    handleToggleFav(quote: StoreQuote) {
+    handleToggleFav(e: CustomEvent<StoreQuote>) {
+        const quote = e.detail;
+        debugger;
         try {
             actionToggleFav(quote);
-            quote = { ...quote, isFav: !quote.isFav };
+            this.rerenderItem = quote.key;
         } catch (error) {
             this.showFavError(quote, error);
         }
@@ -43,14 +51,19 @@ export class TabRandom {
         await confirmationDialog.present();
 
         const { role } = await confirmationDialog.onDidDismiss();
+        if (role === 'confirm') {
+            actionToggleFav(quote, true);
+            this.rerenderItem = quote.key;
+        }
         this.suspendFetching = false;
     }
 
     render() {
         const quotes = selectQuotes();
-        const ids: Array<{ id: string; rerender?: boolean }> = quotes.map(q => ({ id: q.key }));
-        ids[0].rerender = true;
+        const ids = quotes.map((q, index) => ({ id: q.key, rerender: index === 0 || this.rerenderItem === q.key }));
 
+        console.log(this.rerenderItem);
+        console.log(ids);
         return (
             <virtual-queue
                 ids={ids}

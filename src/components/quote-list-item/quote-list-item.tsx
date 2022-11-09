@@ -66,9 +66,7 @@ export class QuoteListItemComponent {
     render() {
         return (
             <ion-item>
-                <io-label>
-                    <p>{this.quote.text}</p>
-                </io-label>
+                <io-label class="text">{this.quote.text}</io-label>
                 <ion-button onClick={this.handleFavClick.bind(this)} slot="end" color="light">
                     <ion-icon class={{ 'fav-icon': true, 'fav-icon--is-fav': this.quote.isFav }} src="assets/icon/star.svg" slot="icon-only"></ion-icon>
                 </ion-button>
