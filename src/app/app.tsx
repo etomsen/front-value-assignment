@@ -5,7 +5,7 @@ import { selectFavsCount, selectLoadingQuotes } from '../store/quotes.store';
 @Component({
     tag: 'app-root',
     styleUrl: 'app.scss',
-    shadow: true,
+    scoped: true,
 })
 export class AppRoot {
     @State()
@@ -37,6 +37,7 @@ export class AppRoot {
                     {this.activeTab === 'random' && <tab-random></tab-random>}
                     {this.activeTab === 'favs' && <tab-favs></tab-favs>}
                 </ion-content>
+                <ion-toast></ion-toast>
             </ion-app>
         );
     }

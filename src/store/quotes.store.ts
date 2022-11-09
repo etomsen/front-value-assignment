@@ -7,7 +7,7 @@ export const COUNT = 10;
 
 export interface StoreQuote extends Quote {
     isFav?: boolean;
-    key: string; // unique key. quotes with same id within a queue have different keys
+    key: string; // unique key (in case we have duplicates in the list)
 }
 
 export interface QuotesState {
@@ -16,24 +16,20 @@ export interface QuotesState {
     favs: Array<Quote>;
     quotes: Array<StoreQuote>;
 }
-const savedQuotes = JSON.parse(localStorage.getItem('quotes') || '[]') as unknown as StoreQuote[];
 const savedFavs = JSON.parse(localStorage.getItem('favs') || '[]') as unknown as Quote[];
+const createToast = toastController.create.bind(toastController);
 
 const quotesStore = createStore<QuotesState>({
-    quotes: savedQuotes,
+    quotes: [],
     favs: savedFavs,
     favIndices: new Map(savedFavs.map((q, index) => [q.id, index])),
 });
 
 const { onChange, set, state } = quotesStore;
 
-onChange('quotes', quotes => {
-    localStorage.setItem('quotes', JSON.stringify(quotes));
-});
-
 onChange('state', async state => {
     if (state instanceof Error) {
-        const errToast = await toastController.create({
+        const errToast = await createToast({
             message: (state as Error).message,
             duration: 4000,
             cssClass: 'error-toast',
@@ -59,11 +55,14 @@ export async function actionFetchRandomQuote(abortController?: AbortController) 
         set('quotes', [{ ...q, key: generateQuoteKey() }, ...state.quotes]);
         set('state', undefined);
         setTimeout(() => {
-            const quotes = state.quotes.slice(0, -1);
-            set('quotes', quotes);
+            if (state.quotes.length > COUNT) {
+                const quotes = state.quotes.slice(0, -1);
+                set('quotes', quotes);
+            }
         }, 1000);
     } catch (error) {
         set('state', error);
+        throw error;
     }
 }
 
@@ -83,11 +82,11 @@ export function actionToggleFav(quote: Quote, force = false) {
 }
 
 export async function actionFetchQuotes() {
+    set('state', loadingQuotes);
     if (state.quotes.length === COUNT) {
         set('state', undefined);
         return;
     }
-    set('state', loadingQuotes);
     try {
         const quotes = await getRandomQuotes(COUNT);
         set(
@@ -97,6 +96,7 @@ export async function actionFetchQuotes() {
         set('state', undefined);
     } catch (error) {
         set('state', error);
+        throw error;
     }
 }
 

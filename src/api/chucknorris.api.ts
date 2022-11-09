@@ -38,18 +38,18 @@ export async function getRandomDistinctQuote(excludeIds: Set<string>, options: G
     }
     const fuse = 100;
     for (let i = 0; i < fuse; i++) {
-        var q = await getRandomQuote(options);
+        const q = await getRandomQuote(options);
         if (!excludeIds.has(q.id)) {
-            break;
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            return q;
         }
     }
     if (timeoutId) {
         clearTimeout(timeoutId);
     }
-    if (!q) {
-        throw new Error('Chanck Norris thinks that you already know all his random quotes!');
-    }
-    return q;
+    throw new Error('Chanck Norris thinks that you already know all his random quotes!');
 }
 
 export async function getRandomQuote(options: GetQuoteOptions = {}): Promise<Quote> {
@@ -70,7 +70,7 @@ export async function getRandomQuote(options: GetQuoteOptions = {}): Promise<Quo
             clearTimeout(timeoutId);
         }
         if (!response.ok) {
-            console.error('getRandomQuote API failed with status', response.status);
+            //console.error('getRandomQuote API failed with status', response.status);
             throw new Error('Chack Norris prevented you of fetching a random quote');
         }
         const json = await response.json();
@@ -79,7 +79,7 @@ export async function getRandomQuote(options: GetQuoteOptions = {}): Promise<Quo
             text: json.value,
         };
     } catch (error) {
-        console.error(error);
+        //console.error(error);
         if (!options.abortController && error.name === 'AbortError') {
             throw error;
         }
