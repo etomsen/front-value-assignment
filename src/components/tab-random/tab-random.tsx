@@ -1,5 +1,5 @@
 import { Component, State, h, Listen } from '@stencil/core';
-import { actionFetchQuotes, actionToggleFav, selectQuotes, StoreQuote } from '../../store/quotes.store';
+import { actionFetchQuotes, actionToggleFav, selectNoquotesError, selectQuotes, StoreQuote } from '../../store/quotes.store';
 
 @Component({
     tag: 'tab-random',
@@ -60,8 +60,12 @@ export class TabRandom {
     render() {
         const quotes = selectQuotes();
         const ids = quotes.map((q, index) => ({ id: q.key, rerender: index === 0 || this.rerenderItem === q.key }));
-
-        return (
+        return selectNoquotesError() ? (
+            <div class="no-quotes-error">
+                {err.message}
+                <p>Please try to refresh the page...</p>
+            </div>
+        ) : (
             <virtual-queue
                 ids={ids}
                 renderItem={(i: number) => {

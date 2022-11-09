@@ -15,7 +15,7 @@ export async function getRandomQuotes(count: number): Promise<Array<Quote>> {
     clearTimeout(timeoutId);
     const result = all.map(p => (p.status === 'fulfilled' ? p.value : null)).filter(Boolean);
     if (!result.length) {
-        throw new Error('Chack Norris did not want u to read any quote');
+        throw new Error('Chack Norris did not want u to read any quote.');
     }
     const ids = new Set();
     return result.reduce((result, q) => {

@@ -104,6 +104,10 @@ export function selectLoadingQuotes() {
     return state.state === loadingQuotes;
 }
 
+export function selectNoquotesError() {
+    return state.state instanceof Error && state.quotes.length === 0 ? state.state : null;
+}
+
 export function selectQuotes() {
     return state.quotes.map(q => ({ ...q, isFav: state.favIndices.has(q.id) }));
 }

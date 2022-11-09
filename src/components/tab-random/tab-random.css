@@ -1,0 +1,12 @@
+.no-quotes-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    margin: 40px 20px;
+    border: 1px solid var(--ion-color-danger, red);
+    border-radius: 10px;
+    height: 200px;
+    color: var(--ion-color-danger, red);
+}
