@@ -4,9 +4,11 @@
     "version": "0.0.1",
     "description": "FrontValue Assignment: ETomsen",
     "scripts": {
+        "preinstall": "npx only-allow pnpm",
         "build": "stencil build",
         "start": "stencil build --dev --watch --serve",
         "test": "stencil test --spec --e2e",
+        "lint": "eslint src",
         "test.watch": "stencil test --spec --e2e --watchAll",
         "generate": "stencil generate"
     },
