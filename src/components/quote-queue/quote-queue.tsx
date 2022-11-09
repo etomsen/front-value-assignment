@@ -32,7 +32,7 @@ export class QuoteQueue {
                 const item = this.items[i];
                 const node = (
                     <li key={item.id} style={{ transform: `translate(0,${translate}px)` }}>
-                        <quote-list-item id={item.id} text={item.text} fetchNext={i === 0}></quote-list-item>
+                        <quote-list-item quote={item} fetchNext={i === 0}></quote-list-item>
                     </li>
                 );
                 result.push(node);

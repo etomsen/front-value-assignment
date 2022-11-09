@@ -5,15 +5,14 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { StoreQuote } from "./store/quotes.store";
 import { Quote } from "./api/chucknorris.api";
 export namespace Components {
     interface AppRoot {
     }
     interface QuoteListItem {
         "fetchNext": boolean;
-        "id": string;
-        "isFav": boolean;
-        "text": string;
+        "quote": StoreQuote;
     }
     interface QuoteQueue {
         "items": Array<Quote>;
@@ -67,9 +66,7 @@ declare namespace LocalJSX {
     }
     interface QuoteListItem {
         "fetchNext"?: boolean;
-        "id"?: string;
-        "isFav"?: boolean;
-        "text"?: string;
+        "quote"?: StoreQuote;
     }
     interface QuoteQueue {
         "items": Array<Quote>;

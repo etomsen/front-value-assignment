@@ -1,3 +1,12 @@
-ion-label {
+.text {
     white-space: normal;
+    padding: 10px;
+}
+
+.fav-icon {
+    fill: white;
+
+    &--is-fav {
+        fill: var(--ion-color-primary, yellow);
+    }
 }
