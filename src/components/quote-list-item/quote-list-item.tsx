@@ -55,7 +55,6 @@ export class QuoteListItemComponent {
         await confirmationDialog.present();
 
         const { role } = await confirmationDialog.onDidDismiss();
-        alert(role);
     }
 
     async fetchNewQuote() {

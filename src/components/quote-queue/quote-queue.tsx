@@ -1,16 +1,14 @@
-import { State, Component, h, Prop, Element, VNode } from '@stencil/core';
-import { Quote } from '../../api/chucknorris.api';
+import { State, Component, h, Prop, VNode } from '@stencil/core';
+import { ChildType } from '@stencil/core/internal';
 
 @Component({
-    tag: 'quote-queue',
+    tag: 'virtual-queue',
     styleUrl: 'quote-queue.scss',
     shadow: true,
 })
 export class QuoteQueue {
-    @Element() host!: HTMLDivElement;
-
     @Prop()
-    items!: Array<Quote>;
+    ids!: Array<string>;
 
     @State()
     children: VNode[] = [];
@@ -18,21 +16,23 @@ export class QuoteQueue {
     @State()
     firstRenderDone = false;
 
+    @Prop()
+    renderItem!: (index: number, id: string) => ChildType;
+
     updateChildren() {
         const result: VNode[] = [];
         const map = new Map<string, VNode>(this.children.map(i => [i.$attrs$['key'], i]));
         let translate = 0;
-        for (let i = 0; i < this.items.length; i++) {
-            if (map.has(this.items[i].id)) {
-                const node = map.get(this.items[i].id) as VNode;
+        for (let i = 0; i < this.ids.length; i++) {
+            if (map.has(this.ids[i])) {
+                const node = map.get(this.ids[i]) as VNode;
                 node.$elm$.style.transform = `translate(0,${translate}px)`;
                 translate += node.$elm$.clientHeight;
                 result.push(node);
             } else {
-                const item = this.items[i];
                 const node = (
-                    <li key={item.id} style={{ transform: `translate(0,${translate}px)` }}>
-                        <quote-list-item quote={item} fetchNext={i === 0}></quote-list-item>
+                    <li key={this.ids[i]} style={{ transform: `translate(0,${translate}px)` }}>
+                        {this.renderItem(i, this.ids[i])}
                     </li>
                 );
                 result.push(node);
@@ -46,7 +46,7 @@ export class QuoteQueue {
     }
 
     componentDidRender() {
-        if (this.items.length && !this.firstRenderDone) {
+        if (this.ids.length && !this.firstRenderDone) {
             setTimeout(() => {
                 this.firstRenderDone = true;
             });

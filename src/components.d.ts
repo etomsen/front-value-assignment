@@ -6,7 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { StoreQuote } from "./store/quotes.store";
-import { Quote } from "./api/chucknorris.api";
+import { ChildType } from "@stencil/core/internal";
 export namespace Components {
     interface AppRoot {
     }
@@ -14,12 +14,13 @@ export namespace Components {
         "fetchNext": boolean;
         "quote": StoreQuote;
     }
-    interface QuoteQueue {
-        "items": Array<Quote>;
-    }
     interface TabFavs {
     }
     interface TabRandom {
+    }
+    interface VirtualQueue {
+        "ids": Array<string>;
+        "renderItem": (index: number, id: string) => ChildType;
     }
 }
 declare global {
@@ -35,12 +36,6 @@ declare global {
         prototype: HTMLQuoteListItemElement;
         new (): HTMLQuoteListItemElement;
     };
-    interface HTMLQuoteQueueElement extends Components.QuoteQueue, HTMLStencilElement {
-    }
-    var HTMLQuoteQueueElement: {
-        prototype: HTMLQuoteQueueElement;
-        new (): HTMLQuoteQueueElement;
-    };
     interface HTMLTabFavsElement extends Components.TabFavs, HTMLStencilElement {
     }
     var HTMLTabFavsElement: {
@@ -53,12 +48,18 @@ declare global {
         prototype: HTMLTabRandomElement;
         new (): HTMLTabRandomElement;
     };
+    interface HTMLVirtualQueueElement extends Components.VirtualQueue, HTMLStencilElement {
+    }
+    var HTMLVirtualQueueElement: {
+        prototype: HTMLVirtualQueueElement;
+        new (): HTMLVirtualQueueElement;
+    };
     interface HTMLElementTagNameMap {
         "app-root": HTMLAppRootElement;
         "quote-list-item": HTMLQuoteListItemElement;
-        "quote-queue": HTMLQuoteQueueElement;
         "tab-favs": HTMLTabFavsElement;
         "tab-random": HTMLTabRandomElement;
+        "virtual-queue": HTMLVirtualQueueElement;
     }
 }
 declare namespace LocalJSX {
@@ -68,19 +69,20 @@ declare namespace LocalJSX {
         "fetchNext"?: boolean;
         "quote"?: StoreQuote;
     }
-    interface QuoteQueue {
-        "items": Array<Quote>;
-    }
     interface TabFavs {
     }
     interface TabRandom {
     }
+    interface VirtualQueue {
+        "ids": Array<string>;
+        "renderItem": (index: number, id: string) => ChildType;
+    }
     interface IntrinsicElements {
         "app-root": AppRoot;
         "quote-list-item": QuoteListItem;
-        "quote-queue": QuoteQueue;
         "tab-favs": TabFavs;
         "tab-random": TabRandom;
+        "virtual-queue": VirtualQueue;
     }
 }
 export { LocalJSX as JSX };
@@ -89,9 +91,9 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
             "quote-list-item": LocalJSX.QuoteListItem & JSXBase.HTMLAttributes<HTMLQuoteListItemElement>;
-            "quote-queue": LocalJSX.QuoteQueue & JSXBase.HTMLAttributes<HTMLQuoteQueueElement>;
             "tab-favs": LocalJSX.TabFavs & JSXBase.HTMLAttributes<HTMLTabFavsElement>;
             "tab-random": LocalJSX.TabRandom & JSXBase.HTMLAttributes<HTMLTabRandomElement>;
+            "virtual-queue": LocalJSX.VirtualQueue & JSXBase.HTMLAttributes<HTMLVirtualQueueElement>;
         }
     }
 }

@@ -12,6 +12,15 @@ export class TabRandom {
     }
 
     render() {
-        return <quote-queue items={selectQuotes()}></quote-queue>;
+        const quotes = selectQuotes();
+        const ids = quotes.map(q => q.key);
+        return (
+            <virtual-queue
+                ids={ids}
+                renderItem={(i: number) => {
+                    return <quote-list-item fetchNext={i === 0} quote={quotes[i]}></quote-list-item>;
+                }}
+            ></virtual-queue>
+        );
     }
 }
