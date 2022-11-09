@@ -39,10 +39,10 @@ function generateQuoteKey() {
     return String(Math.floor(Math.random() * Date.now()));
 }
 
-export async function actionFetchRandomQuote() {
+export async function actionFetchRandomQuote(abortController?: AbortController) {
     set('state', loadingQuotes);
     try {
-        const q = await getRandomQuote();
+        const q = await getRandomQuote({ abortController });
         set('quotes', [{ ...q, key: generateQuoteKey() }, ...state.quotes]);
         set('state', undefined);
         setTimeout(() => {

@@ -19,9 +19,13 @@ export namespace Components {
     interface TabRandom {
     }
     interface VirtualQueue {
-        "ids": Array<string>;
+        "ids": Array<{ id: string; rerender?: boolean }>;
         "renderItem": (index: number, id: string) => ChildType;
     }
+}
+export interface QuoteListItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLQuoteListItemElement;
 }
 declare global {
     interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {
@@ -67,6 +71,7 @@ declare namespace LocalJSX {
     }
     interface QuoteListItem {
         "fetchNext"?: boolean;
+        "onToggleFav"?: (event: QuoteListItemCustomEvent<StoreQuote>) => void;
         "quote"?: StoreQuote;
     }
     interface TabFavs {
@@ -74,7 +79,7 @@ declare namespace LocalJSX {
     interface TabRandom {
     }
     interface VirtualQueue {
-        "ids": Array<string>;
+        "ids": Array<{ id: string; rerender?: boolean }>;
         "renderItem": (index: number, id: string) => ChildType;
     }
     interface IntrinsicElements {

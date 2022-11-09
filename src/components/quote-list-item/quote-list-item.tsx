@@ -1,4 +1,4 @@
-import { Component, Prop, h, Watch } from '@stencil/core';
+import { Event, EventEmitter, Component, Prop, h, Watch } from '@stencil/core';
 import { StoreQuote, actionFetchRandomQuote, actionToggleFav } from '../../store/quotes.store';
 
 @Component({
@@ -7,60 +7,47 @@ import { StoreQuote, actionFetchRandomQuote, actionToggleFav } from '../../store
     shadow: true,
 })
 export class QuoteListItemComponent {
-    @Prop({ mutable: true })
+    @Prop()
     quote: StoreQuote;
 
     @Prop()
     fetchNext = false;
 
+    @Event()
+    toggleFav: EventEmitter<StoreQuote>;
+
     fetchNextTimer?: NodeJS.Timeout;
 
+    abortController?: AbortController;
+
     componentDidRender() {
-        if (this.fetchNext) {
+        if (this.fetchNext && !this.fetchNextTimer) {
             this.fetchNextTimer = setTimeout(this.fetchNewQuote.bind(this), 5000);
         }
     }
 
     @Watch('fetchNext')
-    onFetchNextChange(prev: boolean, next: boolean) {
+    onFetchNextChange(next: boolean, prev: boolean) {
         if (prev && !next && this.fetchNextTimer) {
             clearTimeout(this.fetchNextTimer);
+            delete this.fetchNextTimer;
+            if (this.abortController) {
+                this.abortController.abort();
+            }
         }
     }
 
     handleFavClick() {
-        try {
-            actionToggleFav(this.quote);
-            this.quote = { ...this.quote, isFav: !this.quote.isFav };
-        } catch (error) {
-            this.showFavError(error);
-        }
-    }
-
-    async showFavError(error: Error) {
-        const confirmationDialog = document.createElement('ion-alert');
-        confirmationDialog.header = error.message;
-        confirmationDialog.buttons = [
-            {
-                text: 'Cancel',
-                role: 'cancel',
-            },
-            {
-                text: 'OK',
-                role: 'confirm',
-            },
-        ];
-
-        document.body.appendChild(confirmationDialog);
-        await confirmationDialog.present();
-
-        const { role } = await confirmationDialog.onDidDismiss();
+        this.toggleFav.emit(this.quote);
     }
 
     async fetchNewQuote() {
         clearTimeout(this.fetchNextTimer);
+        delete this.fetchNextTimer;
         try {
-            await actionFetchRandomQuote();
+            this.abortController = new AbortController();
+            setTimeout(() => this.abortController.abort(), 5000);
+            await actionFetchRandomQuote(this.abortController);
         } catch (error) {
             this.fetchNextTimer = setTimeout(this.fetchNewQuote.bind(this), 5000);
         }
@@ -69,13 +56,19 @@ export class QuoteListItemComponent {
     disconnectedCallback() {
         if (this.fetchNextTimer) {
             clearTimeout(this.fetchNextTimer);
+            delete this.fetchNextTimer;
+        }
+        if (this.abortController) {
+            this.abortController.abort();
         }
     }
 
     render() {
         return (
             <ion-item>
-                <io-label>{this.quote.text}</io-label>
+                <io-label>
+                    <p>{this.quote.text}</p>
+                </io-label>
                 <ion-button onClick={this.handleFavClick.bind(this)} slot="end" color="light">
                     <ion-icon class={{ 'fav-icon': true, 'fav-icon--is-fav': this.quote.isFav }} src="assets/icon/star.svg" slot="icon-only"></ion-icon>
                 </ion-button>
